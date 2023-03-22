@@ -6,6 +6,7 @@ from datetime import datetime
 
 class BaseModel:
     """A base class for all hbnb models"""
+
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         if not kwargs:
@@ -14,7 +15,23 @@ class BaseModel:
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
             storage.new(self)
-        else:
+        if kwargs:
+            for key, value in kwargs.items():
+                if key != '__class__':
+                    if key == 'id':
+                        self.id = value
+                    elif key == 'created_at':
+                        self.created_at = datetime.datetime.strptime(
+                            value, '%Y-%m-%dT%H:%M:%S.%f')
+                    elif key == 'updated_at':
+                        self.updated_at = datetime.datetime.strptime(
+                            value, '%Y-%m-%dT%H:%M:%S.%f')
+            if 'id' not in kwargs:
+                self.id = id or str(uuid.uuid4())
+            if 'created_at' not in kwargs:
+                self.created_at = datetime.datetime.now()
+            if 'updated_at' not in kwargs:
+                self.updated_at = datetime.datetime.now()
             kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
                                                      '%Y-%m-%dT%H:%M:%S.%f')
             kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
