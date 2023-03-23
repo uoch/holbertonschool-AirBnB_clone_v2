@@ -48,3 +48,12 @@ class FileStorage:
                         self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
+    def delete(self, obj=None):
+        """Returns a dictionary of models currently in storage"""
+        if (obj is None):
+            print
+        else:
+            for ob in self.__objects:
+                if self.__objects[ob] == obj:
+                    del self.__objects[ob]
+                    self.save()
