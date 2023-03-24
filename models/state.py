@@ -7,17 +7,15 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import relationship
 from os import getenv
 
-class State(BaseModel):
-    """ State class """
+class State(BaseModel, Base):
     __tablename__ = 'states'
     name = Column(String(128), nullable=False)
-    if getenv('HBNB_TYPE_STORAGE') == 'db':
-        cities = relationship("City", cascade="all, delete", backref="state")
-    else:
+    cities = relationship("City", backref="state", cascade="delete")
+
+    if getenv('HBNB_TYPE_STORAGE') != 'db':
         @property
         def cities(self):
-            cities = []
-            for city in models.storage.all(City):
-                if city.state_id == self.id:
-                    cities.append(city)
-            return cities
+            """Returns a list of City objects with state_id equal to the current State"""
+            from models import storage
+            cities = storage.all(City)
+            return [city for city in cities.values() if city.state_id == self.id]
