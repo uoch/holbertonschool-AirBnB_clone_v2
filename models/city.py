@@ -9,5 +9,5 @@ from sqlalchemy.orm import relationship
 class City(BaseModel, Base):
     __tablename__ = 'cities'
     """ The city class, contains state ID and name """
-    state_id = Column(String(60),  Foreign_key("state_id"), nullable=False)
+    state_id = Column(String(60),  ForeignKey("state_id"), nullable=False)
     name = Column(String(128), nullable=False)
