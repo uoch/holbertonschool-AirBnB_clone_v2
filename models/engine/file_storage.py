@@ -56,11 +56,15 @@ class FileStorage:
         except FileNotFoundError:
             pass
     def delete(self, obj=None):
-        """Returns a dictionary of models currently in storage"""
-        if (obj is None):
-            print
+        """Deletes an object from the storage"""
+        if obj is None:
+            return
         else:
-            for ob in self.__objects:
-                if self.__objects[ob] == obj:
-                    del self.__objects[ob]
-                    self.save()
+            delme = None
+            for key, value in self.__objects.items():
+                if value == obj:
+                    delme = key
+                    break
+            if delme is not None:
+                del self.__objects[delme]
+                self.save()
