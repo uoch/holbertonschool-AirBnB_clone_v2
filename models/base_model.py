@@ -69,3 +69,5 @@ class BaseModel:
     def delete(self):
         from models import storage
         storage.delete(self)
+engine = create_engine('mysql+mysqldb://hbnb_dev:hbnb_pwd@localhost/hbnb_dev_db')
+Base.metadata.create_all(engine)
