@@ -2,40 +2,22 @@
 """ Test
 """
 from models.engine.file_storage import FileStorage
-from models.state import State
-import os
+from inspect import isfunction
 
 
-if os.path.exists(FileStorage._FileStorage__file_path):
-    os.remove(FileStorage._FileStorage__file_path)
-
-
-fs = FileStorage()
-
-# Create a new State
-new_state = State()
-new_state.name = "California"
-fs.new(new_state)
-fs.save()
-key_search = "{}.{}".format("State", new_state.id)
-
-# Delete nothing
-fs.delete(new_state)
-
-
-# All States
-all_objs = fs.all()
-try:
-    all_objs.update(fs.all(State))
-except:
-    pass
-try:
-    all_objs.update(fs.all("State"))
-except:
-    pass
-
-if all_objs.get(key_search) is not None:
-    print("State created and deleted should not be in the list of objects")
+delete_fct = FileStorage.__dict__.get("delete")
+if delete_fct is None:
+    print("Missing public instance method `delete`")
     exit(1)
 
-print("OK", end="")
+if not isfunction(delete_fct):
+    print("`delete` is not a function")
+    exit(1)
+
+fs = FileStorage()
+try:
+    fs.delete()
+    print("OK", end="")
+except:
+    print("`delete` is not a public instance method allowing no parameter")
+    exit(1)
