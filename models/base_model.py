@@ -4,6 +4,7 @@ import uuid
 from datetime import datetime
 from sqlalchemy import Column, String, DateTime,create_engine
 from sqlalchemy.ext.declarative import declarative_base
+import models
 
 Base = declarative_base()
 
@@ -23,6 +24,7 @@ class BaseModel:
             self.updated_at = self.created_at
             storage.new(self)
         else:
+            from models import storage
             for key, value in kwargs.items():
                 if 'id' not in kwargs:
                     self.id = str(uuid.uuid4())
@@ -68,8 +70,9 @@ class BaseModel:
         dictionary['updated_at'] = self.updated_at.isoformat()
         if ('_sa_instance_state' in dictionary):
             del dictionary['_sa_instance_state']
+        if hasattr(self, 'name'):
+            dictionary['name'] = self.name
         return dictionary
-
     def delete(self):
         from models import storage
         storage.delete(self)
