@@ -112,36 +112,33 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def do_create(self, arg):
-        """Create a new instance of a specified class with given parameters"""
-        if not arg:
-            print("** class name missing **")
+    def do_create(self, args):
+        """Create an object of any class"""
+        if not args:
+            print("** class name missing")
             return
-        args = arg.split()
-        class_name = args[0]
+        arg_list = args.split()
+        class_name = arg_list[0]
         if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        kwargs = {}
-        for arg in args[1:]:
-            key_value = arg.split("=")
-            if len(key_value) == 2:
-                key = key_value[0]
-                value = key_value[1]
-                if value.startswith('"') and value.endswith('"'):
-                    value = value[1:-1].replace('_', ' ')
-                    value = value[1:-1].replace('_', ' ')
-                else:
-                    try:
-                        value = int(value)
-                    except ValueError:
-                        try:
-                            value = float(value)
-                        except ValueError:
-                            pass
-                kwargs[key] = value
 
-        new_instance = HBNBCommand.classes[class_name](**kwargs)
+        new_instance = HBNBCommand.classes[class_name]()
+
+        for arg in arg_list[1:]:
+            param = arg.split("=")
+            key = param[0]
+            value = param[1]
+
+            if value[0] == "\"":
+                value = value.replace("\"", "").replace("_", " ")
+            elif "." in value:
+                value = float(value)
+            else:
+                value = int(value)
+
+            setattr(new_instance, key, value)
+
         new_instance.save()
         print(new_instance.id)
 
