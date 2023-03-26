@@ -1,7 +1,10 @@
 #!/usr/bin/python3
 """ Review module for the HBNB project """
-from models.base_model import BaseModel
-
+from models.base_model import BaseModel,Base
+from sqlalchemy import create_engine, Column, String, ForeignKey
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import relationship
+from os import getenv
 
 class Review(BaseModel):
     """ Review classto store review information """

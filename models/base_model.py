@@ -24,6 +24,10 @@ class BaseModel:
             storage.new(self)
         else:
             for key, value in kwargs.items():
+                if 'id' not in kwargs:
+                    self.id = str(uuid.uuid4())
+                else:
+                    kwargs.pop('id')
                 if key != '__class__':
                     if key == 'created_at':
                         self.created_at = datetime.strptime(value,

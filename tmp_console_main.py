@@ -126,20 +126,19 @@ class HBNBCommand(cmd.Cmd):
         for arg in args[1:]:
             key_value = arg.split("=")
             if len(key_value) == 2:
-                key, value = key_value
+                key = key_value[0]
+                value = key_value[1]
                 if value.startswith('"') and value.endswith('"'):
                     value = value[1:-1].replace('_', ' ')
-                    value = value.replace('\\"', '"')
-                elif '.' in value:
-                    try:
-                        value = float(value)
-                    except ValueError:
-                        continue
+                    value = value[1:-1].replace('_', ' ')
                 else:
                     try:
                         value = int(value)
                     except ValueError:
-                        continue
+                        try:
+                            value = float(value)
+                        except ValueError:
+                            pass
                 kwargs[key] = value
 
         new_instance = HBNBCommand.classes[class_name](**kwargs)
