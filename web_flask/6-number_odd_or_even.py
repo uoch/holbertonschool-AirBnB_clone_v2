@@ -42,8 +42,8 @@ def number_temp(n):
     return render_template('5-number.html', number=n)
 
 
-@app.route('/number_odd_or_even/<int:n>')
-def number_even_odd(n):
+@app.route('/number_odd_or_even/<int:n>', strict_slashes=False)
+def odd_vs_even(n):
     if n % 2 == 0:
         even = "even"
     else:
