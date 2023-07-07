@@ -2,11 +2,12 @@
 """
 Write a script that starts a Flask web application
 """
-from flask import Flask ,render_template
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
-"""The strict_slashes=False argument tells Flask to treat URLs with or without a trailing slash as equivalent."""
+"""The strict_slashes=False argument tells Flask to treat
+URLs with or without a trailing slash as equivalent."""
 
 
 @app.route('/', strict_slashes=False)
@@ -35,15 +36,19 @@ def python_is_cool(text='is cool'):
 def is_number(n):
     return "{} is a number".format(n)
 
+
 @app.route('/number_template/<int:n>')
 def number_temp(n):
     return render_template('5-number.html', number=n)
+
+
 @app.route('/number_odd_or_even/<int:n>')
 def number_even_odd(n):
-    if n %2 == 0:
-        return render_template('6-number_odd_or_even.html', number=n,nature = "even")
+    if n % 2 == 0:
+        return render_template('6-number_odd_or_even.html', number=n, nature="even")
     else:
-        return render_template('6-number_odd_or_even.html', number=n,nature = "odd")
+        return render_template('6-number_odd_or_even.html', number=n, nature="odd")
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000)
