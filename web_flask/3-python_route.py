@@ -6,21 +6,27 @@ from flask import Flask
 
 app = Flask(__name__)
 
+# route page
+
 
 @app.route('/', strict_slashes=False)
 def hello_hbnb():
     return 'Hello HBNB!'
+# hbnb page
 
 
 @app.route('/hbnb')
 def hello():
     return "HBNB"
+# <text> page
 
 
 @app.route('"/c/<text>"')
 def cfun(text):
     temp = text.replace("_", " ")
     return "c {}".format(temp)
+
+# <text> with default page
 
 
 @app.route('/python/', strict_slashes=False)
