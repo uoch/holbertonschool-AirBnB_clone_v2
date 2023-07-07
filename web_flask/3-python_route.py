@@ -6,7 +6,7 @@ from flask import Flask
 
 app = Flask(__name__)
 
-"""The strict_slashes=False argument tells Flask to treat URLs with or without a trailing slash as equivalent."""
+
 @app.route('/', strict_slashes=False)
 def hello_hbnb():
     return 'Hello HBNB!'
@@ -25,9 +25,9 @@ def cfun(text):
 
 @app.route('/python/', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
-def Python_is_cool(text='is cool'):
+def python_is_cool(text='is_cool'):
     temp = text.replace("_", " ")
-    return "c {}".format(temp)
+    return f"Python {temp}"
 
 
 if __name__ == "__main__":
