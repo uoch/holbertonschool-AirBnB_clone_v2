@@ -11,9 +11,12 @@ app = Flask(__name__)
 def hello_hbnb():
     return 'Hello HBNB!'
 
+
 @app.route('/hbnb')
 def hello():
     return "HBNB"
+
+
 @app.route('"/c/<text>"')
 def cfun(text):
     temp = text.replace("_", " ")
