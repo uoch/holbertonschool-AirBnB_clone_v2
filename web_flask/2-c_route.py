@@ -17,10 +17,11 @@ def hello():
     return "HBNB"
 
 
-@app.route('"/c/<text>"')
+@app.route('/c/<text>')
 def cfun(text):
     temp = text.replace("_", " ")
-    return "c {}".format(temp)
+    return f"C {temp}"
+
 
 
 if __name__ == "__main__":
