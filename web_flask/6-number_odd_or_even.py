@@ -44,7 +44,7 @@ def number_temp(n):
 
 @app.route('/number_odd_or_even/<int:n>', strict_slashes=False)
 def odd_vs_even(n):
-    if num % 2 == 0:
+    if n % 2 == 0:
         even_or_odd = 'even'
     else:
         even_or_odd = 'odd'
