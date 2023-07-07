@@ -6,7 +6,8 @@ from flask import Flask
 
 app = Flask(__name__)
 
-"""The strict_slashes=False argument tells Flask to treat URLs with or without a trailing slash as equivalent."""
+"""The strict_slashes=False argument tells Flask to treat URLs 
+with or without a trailing slash as equivalent."""
 
 
 @app.route('/', strict_slashes=False)
