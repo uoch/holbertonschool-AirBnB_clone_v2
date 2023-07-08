@@ -113,16 +113,29 @@ class HBNBCommand(cmd.Cmd):
             return
         new_instance = HBNBCommand.classes[arg[0]]()
         storage.save()
-        key = "{}.{}".format(arg[0], new_instance.id)
-        value = storage.all()[key].__dict__
-        for i in arg[1:]:
-            args_name, value_str = i.split("=")
-            if value_str[0] == "\"":
-                value[args_name] = " ".join(value_str.split("\"")[1].split("_"))
+        y = storage.all()
+        lis = arg[1:]
+        key = arg[0]+"."+new_instance.id
+        value = y[key].__dict__
+        for i in lis:
+            args_name = i.split("=")
+            if (args_name[1][0] == "\""):
+                step = args_name[1].split("\"")
+                name = step[1].split("_")
+                name_2 = ""
+                for a in name:
+                    if (a != name[-1]):
+                        name_2 += a
+                        name_2 = name_2+" "
+                    else:
+                        name_2 += a
+                value[args_name[0]] = name_2
             else:
-                value[args_name] = HBNBCommand.types[args_name](value_str)
+                value[args_name[0]] = HBNBCommand.types[args_name[0]](
+                    args_name[1])
         print(new_instance.id)
         storage.save()
+
     def help_create(self):
         """ Help information for the create method """
         print("Creates a class of any type")

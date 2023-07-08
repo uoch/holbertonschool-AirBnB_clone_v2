@@ -15,6 +15,7 @@ classes = {"Amenity": Amenity, "City": City,
 
 
 class DBStorage():
+    """new storge"""
     __engine = None
     __session = None
 
@@ -27,20 +28,18 @@ class DBStorage():
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(
             HBNB_MYSQL_USER, HBNB_MYSQL_PWD, HBNB_MYSQL_HOST, HBNB_MYSQL_DB),
             pool_pre_ping=True)
-        if HBNB_ENV == 'test':
+        if HBNB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """Returns a dictionary of models currently in storage"""
-        all_dic = {}
-        for classs in classes:
+        all_dict = {}
+        for itr in classes:
             if cls is None:
-                objs = self.__session.query(classes[classs]).all()
+                objs = self.__session.query(classes[itr]).all()
                 for obj in objs:
-                    """key = <class-name>.<object-id>"""
                     key = obj.__class__.__name__ + '.' + obj.id
-                    all_dic[key] = obj
-        return all_dic
+                    all_dict[key] = obj
+        return (all_dict)
 
     def new(self, obj):
         if obj is not None:
@@ -61,7 +60,9 @@ class DBStorage():
         self.__session = Session()
 
     def close(self):
-        """Close the session and create a new one"""
-        self.__session.close()
-        self.__session = self.__sessionmaker(
-            bind=self.__engine, expire_on_commit=False)()
+        Base.metadata.create_all(self.__engine)
+        session = sessionmaker(
+            bind=self.__engine, expire_on_commit=False)
+        Session = scoped_session(session)
+        self.__session = Session()
+        self.__session.remove()
