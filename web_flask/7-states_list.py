@@ -17,7 +17,8 @@ def hello_hbnb():
 
 @app.route('/states_list', strict_slashes=False)
 def diplay():
-    states = storage.all(State).values()
+    states = storage.all(State)
+    print(states)
     return render_template('7-states_list.html', states=states)
 
 
