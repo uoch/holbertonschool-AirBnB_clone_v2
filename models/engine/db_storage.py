@@ -28,7 +28,6 @@ class DBStorage():
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(
             HBNB_MYSQL_USER, HBNB_MYSQL_PWD, HBNB_MYSQL_HOST, HBNB_MYSQL_DB),
             pool_pre_ping=True)
-        print("Initializing database connection...")
         if HBNB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
 
@@ -45,23 +44,18 @@ class DBStorage():
                 for obj in objs:
                     key = obj.__class__.__name__ + '.' + obj.id
                     all_dict[key] = obj
-        print("all() method called successfully.")
         return all_dict
-
 
     def new(self, obj):
         if obj is not None:
             self.__session.add(obj)
             self.save()
-        print("new() method called successfully.")
 
     def save(self):
         self.__session.commit()
-        print("save() method called successfully.")
 
     def delete(self, obj=None):
         self.__session.delete(obj)
-        print("delete() method called successfully.")
 
     def reload(self):
         Base.metadata.create_all(self.__engine)
@@ -69,8 +63,6 @@ class DBStorage():
             bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session)
         self.__session = Session()
-        print("reload() method called successfully.")
 
     def close(self):
         self.__session.close()
-        print("close() method called successfully.")
